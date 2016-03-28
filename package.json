@@ -1,0 +1,22 @@
+{
+  "name": "fbterm",
+  "version": "1.0.0",
+  "description": "Terminal over Facebook Messenger, without continuously running browser instances.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "Terminal",
+    "Facebook",
+    "Messenger",
+    "Command",
+    "line"
+  ],
+  "author": "Avik Jain <avik@avikjain.me> (http://avikjain.me)",
+  "license": "ISC",
+  "dependencies": {
+    "facebook-chat-api": "git+https://git@github.com/Schmavery/facebook-chat-api.git"
+  }
+}

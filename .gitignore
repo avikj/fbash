@@ -1,0 +1,13 @@
+*.log
+npm-debug.log*
+
+*.pid
+*.seed
+
+node_modules/
+
+*~
+*.swp
+
+secretData.json
+

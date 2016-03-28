@@ -15,7 +15,7 @@
     "line"
   ],
   "author": "Avik Jain <avik@avikjain.me> (http://avikjain.me)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "facebook-chat-api": "git+https://git@github.com/Schmavery/facebook-chat-api.git"
   }

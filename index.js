@@ -7,14 +7,15 @@ var cds = [];
 login(loginInfo, function callback (err, api) {
     if(err) return console.error(err);
     api.setOptions({selfListen: true});
-
+    api.setOptions({disableDelta: true});
     api.listen(function callback(err, message) {
-    	//if(message.senderID != message.threadID) // do not accept messages from group chats
-    	  //  return; 
+    	if(message.senderID != message.threadID) // do not accept messages from group chats
+    	    return; 
         if(message.senderID != api.getCurrentUserID()) // do not accept messages from other people
     	    return;
         if(message.body.startsWith("@fbterm"))	// do not accept messages that were sent by the bot
     	    return;
+    	console.log("\nexecuting command");
     	if(message.body.indexOf("cd") != -1){
     		console.log(message.body);
     		cds.push(message.body+" && ");
@@ -35,11 +36,14 @@ login(loginInfo, function callback (err, api) {
     	console.log(command);
 
     	exec(command, function(error, stdout, stderr){
-    		
+
     		if(error)
-    			api.sendMessage("@fbterm\n"+error.toString(), message.threadID);
-    		else
-    			api.sendMessage("@fbterm\n"+stdout+"\n"+stderr, message.threadID);
+    			api.sendMessage("@fbterm ERR:\n"+error, message.threadID);
+    		else{
+	    		api.sendMessage("@fbterm\n"+stdout+"\n"+stderr, message.threadID);
+
+	    		console.log("\nexecutED command: "+command+"\n"+stdout+"\n\n");
+	    	}
     	});
     	    
     });

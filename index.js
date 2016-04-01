@@ -4,6 +4,8 @@ var login = require("facebook-chat-api"),
 
 var loginInfo = JSON.parse(fs.readFileSync("secretData.json"));
 var cds = [];
+var lastDate = Date.now();
+var lastMessage = "";
 login(loginInfo, function callback (err, api) {
     if(err) return console.error(err);
     api.setOptions({selfListen: true});
@@ -15,7 +17,11 @@ login(loginInfo, function callback (err, api) {
     	    return;
         if(message.body.startsWith("@fbterm"))	// do not accept messages that were sent by the bot
     	    return;
-    	console.log("\nexecuting command");
+    	if(Date.now()-lastDate < 300 && lastMessage == message.body)	// prevent duplicate calls
+	    return;
+    	lastDate = Date.now();
+	lastMessage = message.body;
+    	console.log("\nexecuting command @ "+Date.now());
     	if(message.body.indexOf("cd") != -1){
     		console.log(message.body);
     		cds.push(message.body+" && ");

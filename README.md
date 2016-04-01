@@ -15,7 +15,7 @@ npm install
 
 ## Running 
 
-fbterm can be run by simply entering `node index.js` in the command line. However, this will not run in the background, and the terminal will need to be open for it to work. To continuously run fbterm in the background, first install `forever` from npm, globally.
+fbterm can be run by simply entering `node index.js` in the command line. However, this will not run in the background, and the terminal will need to be open for it to work. To continuously run fbterm in the background, first install `forever` from npm, globally (this may require `sudo`).
 ```shell
 npm install -g forever
 ```

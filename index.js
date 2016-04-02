@@ -20,8 +20,16 @@ login(loginInfo, function callback (err, api) {
     	if(Date.now()-lastDate < 300 && lastMessage == message.body)	// prevent duplicate calls
 	    return;
     	lastDate = Date.now();
-	lastMessage = message.body;
+	   lastMessage = message.body;
     	console.log("\nexecuting command @ "+Date.now());
+
+        if(message.body.trim() == "cls" || message.body.trim() == "clear"){
+            api.sendMessage("@fbterm\nReload page to finish clearing thread.", message.threadID, function(err, messageInfo){
+                api.deleteThread(message.threadID);
+            });
+            return;
+        }
+
     	if(message.body.indexOf("cd") != -1){
     		console.log(message.body);
     		cds.push(message.body+" && ");

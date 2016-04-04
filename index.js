@@ -13,6 +13,8 @@ login(loginInfo, function callback (err, api) {
 
     if(err) return console.error(err);
 
+    api.changeNickname("fbterm", api.getCurrentUserID(), api.getCurrentUserID(), function(err){});   // set user's message-to-self nickname to 'fbterm'
+
     api.setOptions({selfListen: true});
     api.setOptions({disableDelta: true});
 

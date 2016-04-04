@@ -44,12 +44,12 @@ login(loginInfo, function callback (err, api) {
             return;
         }
 
-        /* if(message.body.toLowerCase().startsWith("sendfile ")){
+         if(message.body.toLowerCase().startsWith("sendfile ")){
             var filename = message.body.substring(9).trim();
             console.log("Attempting to send file: "+filename);
-            fs.stat(__dirname+"/"+filename, function(err, stat) { //check if file exists
+            fs.stat(directory+"/"+filename, function(err, stat) { //check if file exists
                 if(err == null) {
-                    api.sendMessage({body: "@fbterm "+filename, attachment: fs.createReadStream(__dirname+"/"+filename)}, message.threadID);
+                    api.sendMessage({body: "@fbterm "+filename, attachment: fs.createReadStream(directory+"/"+filename)}, message.threadID);
                     console.log('File exists');
                 } else if(err.code == 'ENOENT') {
                     api.sendMessage("@fbterm ERR:\nFile "+filename+" not found.", message.threadID);
@@ -58,7 +58,7 @@ login(loginInfo, function callback (err, api) {
                 }
             });
             return;
-        }*/
+        }
 
     	if(message.body.trim().startsWith("cd")){
             var relativeDir = message.body.trim().substring(2).trim();

@@ -61,13 +61,29 @@ login(loginInfo, function callback (err, api) {
         }
 
     	if(message.body.trim().startsWith("cd")){
+            var success = true;
             var relativeDir = message.body.trim().substring(2).trim();
-            if(relativeDir == "..")
+            if(relativeDir == ".."){
                 directory = directory.substring(0, directory.lastIndexOf("\\"));
-            else if(relativeDir != ".")
-                directory+="\\"+relativeDir;
-
-            console.log("cwd: "+directory);
+            }
+            else if(relativeDir != "."){
+                try{
+                    var stat = fs.statSync(directory+"\\"+relativeDir);
+                    if(stat.isDirectory()){
+                        directory+="\\"+relativeDir;
+                    }else{
+                        success = false;
+                    }
+                }catch(e){
+                    success = false;
+                }
+            }
+            if(success){
+                api.sendMessage("@fbterm\n"+directory, message.threadID);
+                console.log("cwd: "+directory);
+            }else{
+                api.sendMessage("@fbterm\nThe system could not find the path specified.", message.threadID);
+            }
             return;
     		/*console.log(message.body);
     		cds.push(message.body+" && ");
@@ -96,7 +112,7 @@ login(loginInfo, function callback (err, api) {
     		else{
 	    		api.sendMessage("@fbterm\n"+stdout+"\n"+stderr, message.threadID);
 
-	    		console.log("\nexecutED command: "+command+"\n"+stdout+"\n\n");
+	    		console.log("\nexecuted command: "+command+"\n"+stdout+"\n\n");
 	    	}
     	});
     	    

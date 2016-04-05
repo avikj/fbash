@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var forever = require('forever');
 
 forever.list(false, function(err, data){

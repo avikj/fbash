@@ -1,6 +1,6 @@
 {
   "name": "fbterm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Terminal over Facebook Messenger, without continuously running browser instances.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "bin": {
     "fbterm": "./starter.js",
     "fbterm-stop": "./stopper.js"
-  },	
+  },
   "keywords": [
     "Terminal",
     "Facebook",

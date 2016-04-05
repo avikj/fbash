@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 var login = require("facebook-chat-api"),
     fs = require('fs'),
-    exec = require('child_process').exec;
+    exec = require('child_process').exec,
+    path = require('path');
 
 var loginInfo = {appState: JSON.parse(fs.readFileSync("appstate.json"))};
 var cds = [];
@@ -33,8 +34,10 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
         if(message.body.startsWith("@fbterm"))	// do not accept messages that were sent by the bot
     	    return;
 
-    	if(Date.now()-lastDate < 300 && lastMessage == message.body)	// prevent duplicate calls
-	    return;
+    	if(lastMessage == message.body){	// prevent duplicate calls
+            lastMessage = "";
+	       return;
+       }
     	lastDate = Date.now();
 	   lastMessage = message.body;
     	console.log("\nexecuting command @ "+Date.now());
@@ -64,23 +67,15 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
         }
 
     	if(message.body.trim().startsWith("cd")){
-            var success = true;
+            var success = false;
             var relativeDir = message.body.trim().substring(2).trim();
-            if(relativeDir == ".."){
-                directory = directory.substring(0, directory.lastIndexOf("\\"));
-            }
-            else if(relativeDir != "."){
-                try{
-                    var stat = fs.statSync(directory+"\\"+relativeDir);
-                    if(stat.isDirectory()){
-                        directory+="\\"+relativeDir;
-                    }else{
-                        success = false;
-                    }
-                }catch(e){
-                    success = false;
+            try{
+                var stat = fs.statSync(path.join(directory, relativeDir));
+                if(stat.isDirectory()){
+                    directory = path.join(directory, relativeDir);
+                    success = true;
                 }
-            }
+            }catch(e){}
             if(success){
                 api.sendMessage("@fbterm\n"+directory, message.threadID);
                 console.log("cwd: "+directory);

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // if appstate has not already been saved, prompts user for credentials and saves appstate
 // runs fbterm as a daemon using forever
 

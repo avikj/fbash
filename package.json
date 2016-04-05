@@ -8,6 +8,10 @@
     "start": "node starter.js",
     "stop": "node stopper.js"
   },
+  "bin": {
+    "fbterm": "./starter.js",
+    "fbterm-stop": "./stopper.js"
+  },	
   "keywords": [
     "Terminal",
     "Facebook",
@@ -17,6 +21,7 @@
   "author": "Avik Jain <avik@avikjain.me> (http://avikjain.me)",
   "license": "MIT",
   "dependencies": {
+    "comfort": "^5.0.2",
     "facebook-chat-api": "git+https://git@github.com/Schmavery/facebook-chat-api.git",
     "forever": "^0.15.1",
     "readline-sync": "^1.4.1"

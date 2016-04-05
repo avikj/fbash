@@ -13,9 +13,11 @@ var directory = __dirname;
 console.log(__dirname);
 login(loginInfo,{logLevel: "silent"},function callback (err, api) {
 
-    if(err) return console.error(err);
+    if(err){
+        fs.unlinkSync(path.join(__dirname, 'appstate.json'));
+        return console.error(err);
+    }
     console.log("Logged in.");
-    // fs.writeFileSync('appstate.json', JSON.stringify(api.getAppState())); // save app state for future launches
 
     api.changeNickname("fbterm", api.getCurrentUserID(), api.getCurrentUserID(), function(err){});   // set user's message-to-self nickname to 'fbterm'
     api.sendMessage("@fbterm connected", api.getCurrentUserID());

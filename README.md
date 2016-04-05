@@ -3,13 +3,10 @@ Terminal over Facebook Messenger, without continuously running browser instances
 
 ## Installation and Setup
 
-1. Clone the git repository.
-2. Install necessary packages.
-3. Create secretData.json and enter your Facebook credentials, following the structure in secretData.json.example
+1. Install through npm.
+2. Create secretData.json and enter your Facebook credentials, following the structure in secretData.json.example
 ```shell
-git clone https://github.com/avikj/fbterm.git
-cd fbterm
-npm install
+npm install fbterm -g
 ```
 
 

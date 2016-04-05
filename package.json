@@ -5,18 +5,20 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node starter.js",
+    "stop": "node stopper.js"
   },
   "keywords": [
     "Terminal",
     "Facebook",
     "Messenger",
-    "Command",
-    "line"
+    "Command"
   ],
   "author": "Avik Jain <avik@avikjain.me> (http://avikjain.me)",
   "license": "MIT",
   "dependencies": {
-    "facebook-chat-api": "git+https://git@github.com/Schmavery/facebook-chat-api.git"
+    "facebook-chat-api": "git+https://git@github.com/Schmavery/facebook-chat-api.git",
+    "forever": "^0.15.1",
+    "readline-sync": "^1.4.1"
   }
 }

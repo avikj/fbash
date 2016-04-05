@@ -8,6 +8,14 @@ var forever = require('forever'),
 	fs = require('fs'),
 	login = require('facebook-chat-api');
 
+// if fbterm processes are already running, stop them
+forever.list(false, function(err, data){
+	for(var i = 0; i < data.length; i++){
+		if(data[i].uid == "fbterm")
+			forever.stop(i);
+	}
+});
+
 fs.stat(__dirname+"\\appstate.json", function(err, stat) { //check if file exists
     if(err == null) {
     	launch();

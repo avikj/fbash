@@ -1,26 +1,27 @@
+#!/usr/bin/env node
 var login = require("facebook-chat-api"),
     fs = require('fs'),
     exec = require('child_process').exec;
 
-var loginInfo = JSON.parse(fs.readFileSync("secretData.json"));
+var loginInfo = {appState: JSON.parse(fs.readFileSync("appstate.json"))};
 var cds = [];
 var lastDate = Date.now();
 var lastMessage = "";
 
 var directory = __dirname;
 console.log(__dirname);
-login(loginInfo, function callback (err, api) {
+login(loginInfo,{logLevel: "silent"},function callback (err, api) {
 
     if(err) return console.error(err);
+    console.log("Logged in.");
+    // fs.writeFileSync('appstate.json', JSON.stringify(api.getAppState())); // save app state for future launches
 
     api.changeNickname("fbterm", api.getCurrentUserID(), api.getCurrentUserID(), function(err){});   // set user's message-to-self nickname to 'fbterm'
-
+    api.sendMessage("@fbterm connected", api.getCurrentUserID());
     api.setOptions({selfListen: true});
-    api.setOptions({disableDelta: true});
 
     api.listen(function callback(err, message) {
-
-    	if(message.senderID != message.threadID) // do not accept messages from group chats
+    	if(message.senderID != message.threadID) // do not accept messages from group chats unless preceded by '/fbterm'
     	    if(message.body.startsWith("/fbterm"))
                 message.body = message.body.substring(7);
             else

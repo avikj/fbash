@@ -85,16 +85,6 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
                 api.sendMessage("@fbterm\nThe system could not find the path specified.", message.threadID);
             }
             return;
-    		/*console.log(message.body);
-    		cds.push(message.body+" && ");
-            var command = "";
-            for(var i = 0; i < cds.length; i++)
-                command+=cds[i];
-            command+="pwd";
-            exec(command, function(error, stdout, stderr){
-                api.sendMessage("@fbterm\n"+stdout, message.threadID);
-            });
-            return;*/
     	}
         	
     	var command = "";

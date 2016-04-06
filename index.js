@@ -4,7 +4,7 @@ var login = require("facebook-chat-api"),
     exec = require('child_process').exec,
     path = require('path');
 
-var loginInfo = {appState: JSON.parse(fs.readFileSync("appstate.json"))};
+var loginInfo = {appState: JSON.parse(fs.readFileSync(path.join(__dirname, "appstate.json")))};
 var cds = [];
 var lastDate = Date.now();
 var lastMessage = "";
@@ -14,7 +14,7 @@ console.log(__dirname);
 login(loginInfo,{logLevel: "silent"},function callback (err, api) {
 
     if(err){
-        fs.unlinkSync(path.join(__dirname, 'appstate.json'));
+        fs.unlinkSync(path.join(__dirname, 'appstate.json')); // delete appstate.json if it is no longer valid
         return console.error(err);
     }
     console.log("Logged in.");

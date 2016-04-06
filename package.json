@@ -24,6 +24,7 @@
     "comfort": "^5.0.2",
     "facebook-chat-api": "git+https://git@github.com/Schmavery/facebook-chat-api.git",
     "forever": "^0.15.1",
+    "homedir": "^0.6.0",
     "readline-sync": "^1.4.1"
   }
 }

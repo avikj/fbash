@@ -2,14 +2,16 @@
 var login = require("facebook-chat-api"),
     fs = require('fs'),
     exec = require('child_process').exec,
-    path = require('path');
+    path = require('path'),
+    homedir = require('homedir');
 
 var loginInfo = {appState: JSON.parse(fs.readFileSync(path.join(__dirname, "appstate.json")))};
 var cds = [];
 var lastDate = Date.now();
 var lastMessage = "";
 
-var directory = __dirname;
+var directory = homedir();
+
 console.log(__dirname);
 login(loginInfo,{logLevel: "silent"},function callback (err, api) {
 

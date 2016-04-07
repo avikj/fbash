@@ -59,7 +59,8 @@ function launch(){
 	forever.startDaemon('index.js', {
 	    "uid": "fbash",
 	    "append": true,
-	    "script": "index.js"
+	    "script": "index.js",
+	    "sourceDir": __dirname
 	});
 	console.log("Started fbash.")
 }

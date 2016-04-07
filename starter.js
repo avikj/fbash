@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // if appstate has not already been saved, prompts user for credentials and saves appstate
-// runs fbterm as a daemon using forever
+// runs fbash as a daemon using forever
 
 var forever = require('forever'),
 	readlineSync = require('readline-sync'),
@@ -9,12 +9,12 @@ var forever = require('forever'),
 	login = require('facebook-chat-api'),
 	path = require('path');
 
-// if fbterm processes are already running, stop them
+// if fbash processes are already running, stop them
 forever.list(false, function(err, data){
 	if(err) throw err;
 	if(data == null)return;
 	for(var i = 0; i < data.length; i++){
-		if(data[i].uid == "fbterm")
+		if(data[i].uid == "fbash")
 			forever.stop(i);
 	}
 });
@@ -56,10 +56,10 @@ fs.stat(path.join(__dirname, "appstate.json"), function(err, stat) { //check if 
 
 function launch(){
 	forever.startDaemon('./index.js', {
-	    "uid": "fbterm",
+	    "uid": "fbash",
 	    "append": true,
 	    "script": "index.js",
 	    "sourceDir": __dirname
 	});
-	console.log("Started fbterm.")
+	console.log("Started fbash.")
 }

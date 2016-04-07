@@ -1,21 +1,23 @@
 # fbash
-Terminal over Facebook Messenger, without continuously running browser instances.
+Terminal over Facebook Messenger, running continuously as a background process.
 
 ## Installation and Setup
 
-1. Install through npm.
+Install through npm.
 ```shell
-npm install fbash -g
+npm install -g fbash
 ```
 
 
 ## Running 
 
-fbash can be started using the command `fbash`.
+fbash can be started using the command `fbash`. 
+
+Because this requires access to restricted files, you may need to run it as `sudo fbash`. 
 
 All running fbash processes can be stopped using the command `fbash-stop`.
 
-When `fbash` is initally run, it will prompt the user for Facebook credentials. In subsequent runs, it will use a saved app state.
+When `fbash` is initally run, it will prompt the user for Facebook credentials. In subsequent runs, it will use a saved app state. The access to this file is restricted, which is why fbash may require `sudo`
 
 ## Usage
 

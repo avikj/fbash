@@ -2,7 +2,7 @@
   "name": "fbash",
   "version": "1.0.4",
   "description": "Terminal over Facebook Messenger, without continuously running browser instances.",
-  "main": "index.js",
+  "main": "starter.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node starter.js",

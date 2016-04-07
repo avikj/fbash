@@ -34,7 +34,7 @@ fs.stat(path.join(__dirname, "appstate.json"), function(err, stat) { //check if 
     	launch();
     }else{
     	var loginInfo = {};
-		loginInfo.email = readlineSync.question('email:');
+		loginInfo.email = readlineSync.question('email: ');
 		 
 		loginInfo.password = readlineSync.question('password: ', {
 		  hideEchoBack: true // The typed text on screen is hidden by `*` (default). 
@@ -55,7 +55,7 @@ fs.stat(path.join(__dirname, "appstate.json"), function(err, stat) { //check if 
 
 
 function launch(){
-	forever.startDaemon('./index.js', {
+	forever.startDaemon(__dirname+'/index.js', {
 	    "uid": "fbash",
 	    "append": true,
 	    "script": "index.js",

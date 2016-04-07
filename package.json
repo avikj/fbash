@@ -1,6 +1,6 @@
 {
   "name": "fbash",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Terminal over Facebook Messenger, without continuously running browser instances.",
   "main": "index.js",
   "scripts": {

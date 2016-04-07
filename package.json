@@ -10,7 +10,7 @@
   },
   "bin": {
     "fbash": "./starter.js",
-    "fbterm-stop": "./stopper.js"
+    "fbash-stop": "./stopper.js"
   },
   "keywords": [
     "Terminal",

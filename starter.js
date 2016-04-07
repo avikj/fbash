@@ -56,11 +56,10 @@ fs.stat(path.join(__dirname, "appstate.json"), function(err, stat) { //check if 
 
 
 function launch(){
-	forever.startDaemon('./index.js', {
+	forever.startDaemon('index.js', {
 	    "uid": "fbash",
 	    "append": true,
-	    "script": "index.js",
-	    "sourceDir": __dirname
+	    "script": "index.js"
 	});
 	console.log("Started fbash.")
 }

@@ -42,6 +42,7 @@ fs.stat(path.join(__dirname, "appstate.json"), function(err, stat) { //check if 
 
 		login(loginInfo,{logLevel: "silent"}, function(err,api){
 			if(err) {
+				console.log(err);
 				console.log("Invalid credentials.");
 			}
 			else {

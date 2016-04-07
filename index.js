@@ -11,6 +11,7 @@ var lastDate = Date.now();
 var lastMessage = "";
 
 var directory = homedir();
+var settings = JSON.parse(fs.readFileSync(path.join(__dirname, "settings.json"), 'utf8'));
 
 console.log(__dirname);
 login(loginInfo,{logLevel: "silent"},function callback (err, api) {
@@ -21,13 +22,13 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
     }
     console.log("Logged in.");
 
-    api.changeNickname("fbterm", api.getCurrentUserID(), api.getCurrentUserID(), function(err){});   // set user's message-to-self nickname to 'fbterm'
-    api.sendMessage("@fbterm connected", api.getCurrentUserID());
+    api.changeNickname("fbash", api.getCurrentUserID(), api.getCurrentUserID(), function(err){});   // set user's message-to-self nickname to 'fbash'
+    api.sendMessage("@fbash connected", api.getCurrentUserID());
     api.setOptions({selfListen: true});
 
     api.listen(function callback(err, message) {
-    	if(message.senderID != message.threadID) // do not accept messages from group chats unless preceded by '/fbterm'
-    	    if(message.body.startsWith("/fbterm"))
+    	if(message.senderID != message.threadID) // do not accept messages from group chats unless preceded by '/fbash'
+    	    if(message.body.startsWith("/fbash"))
                 message.body = message.body.substring(7);
             else
                 return;
@@ -35,7 +36,7 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
         if(message.senderID != api.getCurrentUserID()) // do not accept messages from other people
     	    return;
 
-        if(message.body.startsWith("@fbterm"))	// do not accept messages that were sent by the bot
+        if(message.body.startsWith("@fbash"))	// do not accept messages that were sent by the bot
     	    return;
 
     	if(lastMessage == message.body){	// prevent duplicate calls
@@ -47,9 +48,9 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
     	console.log("\nexecuting command @ "+Date.now());
 
         if(message.body.trim() == "cls" || message.body.trim() == "clear"){     // deletes thread (clears messages)
-            api.sendMessage("@fbterm\nReload page to finish clearing thread.", message.threadID, function(err, messageInfo){
+            api.sendMessage("@fbash\nReload page to finish clearing thread.", message.threadID, function(err, messageInfo){
                 api.deleteThread(message.threadID);
-                api.sendMessage("@fbterm :)", message.threadID);
+                api.sendMessage("@fbash :)", message.threadID);
             });
             return;
         }
@@ -59,10 +60,10 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
             console.log("Attempting to send file: "+filename);
             fs.stat(directory+"/"+filename, function(err, stat) { //check if file exists
                 if(err == null) {
-                    api.sendMessage({body: "@fbterm "+filename, attachment: fs.createReadStream(directory+"/"+filename)}, message.threadID);
+                    api.sendMessage({body: "@fbash "+filename, attachment: fs.createReadStream(directory+"/"+filename)}, message.threadID);
                     console.log('File exists');
                 } else if(err.code == 'ENOENT') {
-                    api.sendMessage("@fbterm ERR:\nFile "+filename+" not found.", message.threadID);
+                    api.sendMessage("@fbash ERR:\nFile "+filename+" not found.", message.threadID);
                 } else {
                     console.log('Some other error: ', err.code);
                 }
@@ -81,10 +82,10 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
                 }
             }catch(e){}
             if(success){
-                api.sendMessage("@fbterm\n"+directory, message.threadID);
+                api.sendMessage("@fbash\n"+directory, message.threadID);
                 console.log("cwd: "+directory);
             }else{
-                api.sendMessage("@fbterm\nThe system could not find the path specified.", message.threadID);
+                api.sendMessage("@fbash\nThe system could not find the path specified.", message.threadID);
             }
             return;
     	}
@@ -98,11 +99,12 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
     	exec(command, {
             cwd: directory
         }, function(error, stdout, stderr){
-            // stdout = stdout.replace(/\./g, ",");     // replaces periods with commas to prevent fb bot detection
+            if(settings.replacePds)
+                stdout = stdout.replace(/\./g, ",");     // replaces periods with commas to prevent fb bot detection
     		if(error)
-    			api.sendMessage("@fbterm ERR:\n"+error, message.threadID);
+    			api.sendMessage("@fbash ERR:\n"+error, message.threadID);
     		else{
-	    		api.sendMessage("@fbterm\n"+stdout+"\n"+stderr, message.threadID);
+	    		api.sendMessage("@fbash\n"+stdout+"\n"+stderr, message.threadID);
 
 	    		console.log("\nexecuted command: "+command+"\n"+stdout+"\n\n");
 	    	}

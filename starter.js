@@ -19,6 +19,16 @@ forever.list(false, function(err, data){
 	}
 });
 
+fs.stat(path.join(__dirname, "settings.json"), function(err, stat) { //check if file exists
+    if(err == null)
+    	return;
+    var defaultSettings = {
+    	replacePds: false,
+    };
+
+    fs.writeFileSync(path.join(__dirname, "settings.json"), JSON.stringify(defaultSettings));
+}); 
+
 fs.stat(path.join(__dirname, "appstate.json"), function(err, stat) { //check if file exists
     if(err == null) {
     	launch();

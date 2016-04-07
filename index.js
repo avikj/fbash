@@ -3,7 +3,8 @@ var login = require("facebook-chat-api"),
     fs = require('fs'),
     exec = require('child_process').exec,
     path = require('path'),
-    homedir = require('homedir');
+    homedir = require('homedir'),
+    moment = require('moment');
 
 var loginInfo = {appState: JSON.parse(fs.readFileSync(path.join(__dirname, "appstate.json")))};
 var cds = [];
@@ -23,7 +24,7 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
     console.log("Logged in.");
 
     api.changeNickname("fbash", api.getCurrentUserID(), api.getCurrentUserID(), function(err){});   // set user's message-to-self nickname to 'fbash'
-    api.sendMessage("@fbash connected", api.getCurrentUserID());
+    api.sendMessage("@fbash connected @ "+moment().format('MM/DD/YY, hh:mm:ss a'), api.getCurrentUserID());
     api.setOptions({selfListen: true});
 
     api.listen(function callback(err, message) {

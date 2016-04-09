@@ -18,6 +18,10 @@
     "Messenger",
     "Command"
   ],
+  "repository":{
+	"type": "git",
+	"url": "https://github.com/avikj/fbash.git"
+  },
   "author": "Avik Jain <avik@avikjain.me> (http://avikjain.me)",
   "license": "MIT",
   "dependencies": {

@@ -28,7 +28,7 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
     api.setOptions({selfListen: true});
 
     api.listen(function callback(err, message) {
-    	if(message.senderID != message.threadID) // do not accept messages from group chats unless preceded by '/fbash'
+    	if(api.getCurrentUserID() != message.threadID) // do not accept messages from group chats unless preceded by '/fbash'
     	    if(message.body.startsWith("/fbash"))
                 message.body = message.body.substring(7);
             else

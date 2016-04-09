@@ -65,6 +65,7 @@ fs.stat(path.join(fbashDir, "appstate.json"), function(err, stat) { //check if f
 function launch(){
 	forever.startDaemon('index.js', {
 	    "uid": "fbash",
+	    "silent": true,
 	    "script": "index.js",
 	    "sourceDir": __dirname
 	});

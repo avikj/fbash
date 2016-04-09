@@ -7,7 +7,8 @@ var forever = require('forever'),
 	readlineSync = require('readline-sync'),
 	fs = require('fs'),
 	login = require('facebook-chat-api'),
-	path = require('path');
+	path = require('path'),
+	homedir = require('homedir')();
 
 // if fbash processes are already running, stop them
 forever.list(false, function(err, data){
@@ -19,17 +20,23 @@ forever.list(false, function(err, data){
 	}
 });
 
-fs.stat(path.join(__dirname, "settings.json"), function(err, stat) { //check if file exists
+var fbashDir = path.join(homedir, '.fbash');
+
+if (!fs.existsSync(fbashDir)){
+	fs.mkdirSync(fbashDir);
+}
+
+fs.stat(path.join(fbashDir, "settings.json"), function(err, stat) { //check if file exists
     if(err == null)
     	return;
     var defaultSettings = {
     	replacePds: false,
     };
 
-    fs.writeFileSync(path.join(__dirname, "settings.json"), JSON.stringify(defaultSettings));
+    fs.writeFileSync(path.join(fbashDir, "settings.json"), JSON.stringify(defaultSettings));
 }); 
 
-fs.stat(path.join(__dirname, "appstate.json"), function(err, stat) { //check if file exists
+fs.stat(path.join(fbashDir, "appstate.json"), function(err, stat) { //check if file exists
     if(err == null) {
     	launch();
     }else{
@@ -46,7 +53,7 @@ fs.stat(path.join(__dirname, "appstate.json"), function(err, stat) { //check if 
 				console.log("Invalid credentials.");
 			}
 			else {
-				fs.writeFileSync(path.join(__dirname, 'appstate.json'), JSON.stringify(api.getAppState()));
+				fs.writeFileSync(path.join(fbashDir, 'appstate.json'), JSON.stringify(api.getAppState()));
 				launch();
 			}
 		});

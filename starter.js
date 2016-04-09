@@ -53,8 +53,10 @@ fs.stat(path.join(fbashDir, "appstate.json"), function(err, stat) { //check if f
 				console.log("Invalid credentials.");
 			}
 			else {
-				fs.writeFileSync(path.join(fbashDir, 'appstate.json'), JSON.stringify(api.getAppState()));
-				launch();
+				
+				try{fs.writeFileSync(path.join(fbashDir, 'appstate.json'), JSON.stringify(api.getAppState()));
+				}catch(e){console.log(e)}
+					launch();
 			}
 		});
 
@@ -65,9 +67,11 @@ fs.stat(path.join(fbashDir, "appstate.json"), function(err, stat) { //check if f
 function launch(){
 	forever.startDaemon('index.js', {
 	    "uid": "fbash",
-	    "silent": true,
 	    "script": "index.js",
-	    "sourceDir": __dirname
+	    "sourceDir": __dirname,
+	    "logFile": path.join(fbashDir, 'forever.log'),
+	    "outFile": path.join(fbashDir, 'out.log'),
+	    "errFile": path.join(fbashDir, 'err.log')
 	});
 	console.log("Started fbash.")
 }

@@ -1,6 +1,6 @@
 {
   "name": "fbash",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Terminal over Facebook Messenger, without continuously running browser instances.",
   "main": "starter.js",
   "scripts": {
@@ -18,9 +18,9 @@
     "Messenger",
     "Command"
   ],
-  "repository":{
-	"type": "git",
-	"url": "https://github.com/avikj/fbash.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/avikj/fbash.git"
   },
   "author": "Avik Jain <avik@avikjain.me> (http://avikjain.me)",
   "license": "MIT",

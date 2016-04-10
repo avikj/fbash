@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 var login = require("facebook-chat-api"),
     fs = require('fs'),
     exec = require('child_process').exec,
@@ -8,7 +9,7 @@ var login = require("facebook-chat-api"),
 
 
 var cds = [];
-var lastDate = Date.now();
+
 var lastMessage = "";
 
 var directory = homedir;
@@ -29,7 +30,10 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
     api.setOptions({selfListen: true});
 
     api.listen(function callback(err, message) {
-    	if(api.getCurrentUserID() != message.threadID) // do not accept messages from group chats unless preceded by '/fbash'
+    	if(!message.body)	// prevent errors when message only contains attachment, without a message body
+	    return;
+	
+	if(api.getCurrentUserID() != message.threadID) // do not accept messages from group chats unless preceded by '/fbash'
     	    if(message.body.startsWith("/fbash"))
                 message.body = message.body.substring(7);
             else
@@ -45,9 +49,22 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
             lastMessage = "";
 	       return;
        }
-    	lastDate = Date.now();
-	   lastMessage = message.body;
-    	console.log("\nexecuting command @ "+Date.now());
+    	lastMessage = message.body;
+	
+	message.body = message.body.trim();
+
+	// handle fbash settings
+	if(message.body.startsWith('/set ')){
+		var args = message.body.substring(5).split(" ");
+		if(args.length != 2){
+			api.sendMessage("@fbash\nThe syntax of the command is incorrect.", message.threadID);
+			return;
+		}
+		settings[args[0]] = args[1];
+		api.sendMessage("@fbash\nSet value of '"+args[0]+"' to '"+args[1]+"'", message.threadID); 
+		saveSettings();
+		return;
+	}
 
         if(message.body.trim() == "cls" || message.body.trim() == "clear"){     // deletes thread (clears messages)
             api.sendMessage("@fbash\nReload page to finish clearing thread.", message.threadID, function(err, messageInfo){
@@ -92,25 +109,28 @@ login(loginInfo,{logLevel: "silent"},function callback (err, api) {
             return;
     	}
         	
-    	var command = "";
-    	for(var i = 0; i < cds.length; i++)
-    		command+=cds[i];
-    	command+=message.body;
-    	console.log(command);
-
-    	exec(command, {
+    	exec(message.body, {
             cwd: directory
         }, function(error, stdout, stderr){
-            if(settings.replacePds)
-                stdout = stdout.replace(/\./g, ",");     // replaces periods with commas to prevent fb bot detection
+                stdout = stdout.replace(/\./g, settings.periodReplacement);     // replaces periods with other character to prevent fb bot detection
     		if(error)
     			api.sendMessage("@fbash ERR:\n"+error, message.threadID);
     		else{
-	    		api.sendMessage("@fbash\n"+stdout+"\n"+stderr, message.threadID);
-
-	    		console.log("\nexecuted command: "+command+"\n"+stdout+"\n\n");
+	    		api.sendMessage("@fbash\n"+stdout+"\n"+stderr, message.threadID, function(err, messageInfo){
+			if(err.errorSummary == "Security Check Required"){
+				api.sendMessage("@fbash\nError: Facebook detected the response as spam and blocked the stdout response.\n"
+						+ "This is likely because the stdout response included periods in file names, which caused the spam filter to detect it as an unsafe or spammy link.\n"
+						+ "You can prevent this from happening again by enabling the setting to replace periods with another symbol. The syntax to replace periods with commas "
+						+ "is as follows:\n\n/set periodReplacement ,\n\nIf you prefer another symbol over a comma, you can just replace the comma in the example command with your preferred character.", message.threadID);
+				}		
+			});
 	    	}
     	});
     	    
     });
 });
+
+
+function saveSettings(){
+	fs.writeFileSync(path.join(homedir, '.fbash', "settings.json"), JSON.stringify(settings));
+}

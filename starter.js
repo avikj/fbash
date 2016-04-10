@@ -30,7 +30,7 @@ fs.stat(path.join(fbashDir, "settings.json"), function(err, stat) { //check if f
     if(err == null)
     	return;
     var defaultSettings = {
-    	replacePds: false,
+	    periodReplacement: "."
     };
 
     fs.writeFileSync(path.join(fbashDir, "settings.json"), JSON.stringify(defaultSettings));

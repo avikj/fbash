@@ -46,11 +46,27 @@ To use it in a chat that is not the chat with yourself, prefix the command with 
 It will display this output in the chat from which the command was received.
 
 #### Additional commands
-* sendfile &lt;filename&gt; - retrieves &lt;filename&gt; and sends as an attachment.
 
-**Note: fbash is not a truly stateful terminal; it cannot handle environment variables and other functionality associated with terminal state. The working directory is handled manually by parsing `cd` commands. Because of this, compound commands with a `cd` component will not function properly, and may cause unexpected errors.**
+* `sendfile <filename>`
+
+      retrieves &lt;filename&gt; and sends as an attachment.
+      
+* `/set <setting> <value>`
+
+      sets the value of the setting &lt;setting&gt; to &lt;value&gt;
+
+#### Settings
+Each setting is a string that modifies how fbash acts in how it responds to commands.
+
+* `periodReplacement`
+
+      Periods in stdout responses are replaced with this character. This is used to bypass Facebook's spam detection.
+      
+      Default: `.`
 
 ## Fixes as of latest version
 * No longer requires `sudo` to run.
 * Previously fbash did not work when installed on non-Windows computers, due to issues with line ending format. This has been fixed
 * Handled errors for calling fbash-stop when there are no fbash processes running
+
+**Note: fbash is not a truly stateful terminal; it cannot handle environment variables and other functionality associated with terminal state. The working directory is handled manually by parsing `cd` commands. Because of this, compound commands with a `cd` component will not function properly, and may cause unexpected errors.**

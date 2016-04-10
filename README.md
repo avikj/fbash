@@ -65,8 +65,7 @@ Each setting is a string that modifies how fbash acts in how it responds to comm
       Default: `.`
 
 ## Fixes as of latest version
+* Allows replacing periods to bypass Facebook's spam detection.
 * No longer requires `sudo` to run.
-* Previously fbash did not work when installed on non-Windows computers, due to issues with line ending format. This has been fixed
-* Handled errors for calling fbash-stop when there are no fbash processes running
 
 **Note: fbash is not a truly stateful terminal; it cannot handle environment variables and other functionality associated with terminal state. The working directory is handled manually by parsing `cd` commands. Because of this, compound commands with a `cd` component will not function properly, and may cause unexpected errors.**

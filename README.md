@@ -37,6 +37,14 @@ After starting the script on your computer, you can access your terminal by mess
 It will respond with `@fbash` followed by the standard output, standard error, or other errors. 
 fbash does *not* allow using commands which require user interaction, such as `vim`.
 
+fbash can also be accessed through normal chats (not just to yourself). 
+
+To use it in a chat that is not the chat with yourself, prefix the command with `/fbterm `. For example, to run `ls` in another chat, use
+```
+/fbterm ls
+```
+It will display this output in the chat from which the command was received.
+
 #### Additional commands
 * sendfile &lt;filename&gt; - retrieves &lt;filename&gt; and sends as an attachment.
 

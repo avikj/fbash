@@ -7,9 +7,6 @@ var path = require('path');
 var homedir = require('homedir')();
 var moment = require('moment');
 
-
-var cds = [];
-
 var lastMessage = '';
 
 var directory = homedir;
@@ -38,7 +35,7 @@ login(loginInfo, {
   api.changeNickname('fbash', api.getCurrentUserID(), api.getCurrentUserID());
 
   // notfy user that fbash has connected
-  const timestamp = moment().format('MM/DD/YY, hh:mm:ss a');
+  var timestamp = moment().format('MM/DD/YY, hh:mm:ss a');
   api.sendMessage('@fbash connected at '+timestamp, api.getCurrentUserID());
 
   // enable listening to logged in user's messages
@@ -110,11 +107,14 @@ login(loginInfo, {
       // ensure that file exists before sending
       fs.stat(path.join(directory, filename), function statCallback(err, stat) {
         if (err == null) {
+          if(stat.isDirectory()){
+            api.sendMessage('The specified path points to a directory.', message.threadID);
+            return;
+          }
           api.sendMessage({
             body: '@fbash',
             attachment: fs.createReadStream(path.join(directory, filename))
           }, message.threadID);
-          console.log('File exists');
         } else if (err.code === 'ENOENT') {
           api.sendMessage('@fbash ERR:\nFile ' + filename + ' not found.',
             message.threadID);

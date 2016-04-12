@@ -148,7 +148,7 @@ login(loginInfo, {
           var fileData = replacePeriods(fs.readFileSync(
             path.join(directory, fileName), 'utf8'));
 
-          var fileType = getFileType(fileName);
+          var fileType = args[1] ? args[1] : getFileType(fileName);
           console.log('sent file '+fileName+' with file type '+fileType);
 
           api.sendMessage('@fbash\n```'+fileType

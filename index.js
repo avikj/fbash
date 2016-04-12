@@ -7,6 +7,8 @@ var path = require('path');
 var homedir = require('homedir')();
 var moment = require('moment');
 
+var getFileType = require('./utils/getFileType.js');
+
 var lastMessage = '';
 
 var directory = homedir;
@@ -32,7 +34,8 @@ login(loginInfo, {
   }
 
   // set user's message-to-self nickname to 'fbash'
-  api.changeNickname('fbash', api.getCurrentUserID(), api.getCurrentUserID());
+  api.changeNickname('fbash', api.getCurrentUserID(), 
+    api.getCurrentUserID(), function(err){});
 
   // notfy user that fbash has connected
   var timestamp = moment().format('MM/DD/YY, hh:mm:ss a');
@@ -102,10 +105,10 @@ login(loginInfo, {
     }
 
     if (message.body.startsWith('sendfile ')) {
-      var filename = message.body.substring(9);
+      var fileName = message.body.substring(9);
 
       // ensure that file exists before sending
-      fs.stat(path.join(directory, filename), function statCallback(err, stat) {
+      fs.stat(path.join(directory, fileName), function statCallback(err, stat) {
         if (err == null) {
           if(stat.isDirectory()){
             api.sendMessage('The specified path points to a directory.', message.threadID);
@@ -113,10 +116,46 @@ login(loginInfo, {
           }
           api.sendMessage({
             body: '@fbash',
-            attachment: fs.createReadStream(path.join(directory, filename))
+            attachment: fs.createReadStream(path.join(directory, fileName))
           }, message.threadID);
         } else if (err.code === 'ENOENT') {
-          api.sendMessage('@fbash ERR:\nFile ' + filename + ' not found.',
+          api.sendMessage('@fbash ERR:\nNo such file or directory: ' + fileName,
+            message.threadID);
+        } else {
+          console.log('Some other error: ', err.code);
+        }
+      });
+      return;
+    }
+
+    if (message.body.startsWith('showcode ')) {
+      var args = message.body.substring(9).split(' ');
+      if(args.length == 0){
+        api.sendMessage('@fbash\nNo file specified.', message.threadID);
+        return
+      }
+      var fileName = args[0];
+
+      // ensure that file exists before sending
+      fs.stat(path.join(directory, fileName), function statCallback(err, stat) {
+        if (err == null) {
+          if(stat.isDirectory()){
+            api.sendMessage('The specified path points to a directory.'
+                , message.threadID);
+            return;
+          }
+
+          var fileData = replacePeriods(fs.readFileSync(
+            path.join(directory, fileName), 'utf8'));
+
+          var fileType = getFileType(fileName);
+          console.log('sent file '+fileName+' with file type '+fileType);
+
+          api.sendMessage('@fbash\n```'+fileType
+            +'\n'+fileData+'```', message.threadID);
+
+        } else if (err.code === 'ENOENT') {
+          api.sendMessage('@fbash ERR:\nNo such file or directory: ' + fileName,
             message.threadID);
         } else {
           console.log('Some other error: ', err.code);
@@ -151,7 +190,7 @@ login(loginInfo, {
 
       // replaces periods in response with another character
       // to bypass Facebook's spam detection
-      stdout = stdout.replace(/\./g, settings.periodReplacement); 
+      stdout = replacePeriods(stdout);
       if (error)
         api.sendMessage('@fbash ERR:\n' + error, message.threadID);
       else {
@@ -173,8 +212,11 @@ login(loginInfo, {
       }
     });
   });
-});
 
+  function replacePeriods(text){
+    return text.replace(/\./g, settings.periodReplacement);
+  }
+});
 
 function saveSettings() {
   fs.writeFileSync(path.join(homedir, '.fbash', 'settings.json'),

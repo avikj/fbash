@@ -1,35 +1,41 @@
 #!/usr/bin/env node
 
+// require installed node modules
 var login = require('facebook-chat-api');
 var fs = require('fs');
 var exec = require('child_process').exec;
 var path = require('path');
-var homedir = require('homedir')();
 var moment = require('moment');
+var directory = require('homedir')();
 
-var getFileType = require('./utils/getFileType.js');
+// require utility functions
+var replacePeriods = require('./utils/replacePeriods.js');
+
+// require command functions
+var clear = require('./commands/clear.js');
+var sendfile = require('./commands/sendfile.js');
+var showcode = require('./commands/showcode.js');
+var cd = require('./commands/cd.js');
 
 var lastMessage = '';
 
-var directory = homedir;
-
 var settings = JSON.parse(
-    fs.readFileSync(path.join(homedir, '.fbash', 'settings.json'), 'utf8')
+    fs.readFileSync(path.join(directory, '.fbash', 'settings.json'), 'utf8')
 );
 
 var loginInfo = {
   appState: 
-    JSON.parse(fs.readFileSync(path.join(homedir, '.fbash', 'appstate.json')))
+    JSON.parse(fs.readFileSync(path.join(directory, '.fbash', 'appstate.json')))
 };
 
-console.log(homedir);
+console.log(directory);
 login(loginInfo, {
   logLevel: 'silent'
 }, function loggedIn(err, api) {
 
   // delete appstate.json if it is no longer valid
   if (err) {
-    fs.unlinkSync(path.join(homedir, '.fbash', 'appstate.json')); 
+    fs.unlinkSync(path.join(directory, '.fbash', 'appstate.json')); 
     return console.error(err);
   }
 
@@ -48,6 +54,8 @@ login(loginInfo, {
 
   api.listen(function onMessage(err, message) {
     // prevent errors when message does not contain body
+    if(err)
+      return console.error(err);
     if (!message.body) 
       return;
 
@@ -96,91 +104,28 @@ login(loginInfo, {
     }
 
     // clears thread
-    if (message.body === 'cls' || message.body === 'clear') { 
-      api.sendMessage('@fbash\nReload page to finish clearing thread.', 
-        message.threadID, function messageSent(err, messageInfo) {
-        api.deleteThread(message.threadID);
-      });
+    if (message.body === 'cls' || message.body === 'clear') {
+      clear(api, message.threadID);
       return;
     }
-
+    
+    // sends a file as an attachment
     if (message.body.startsWith('sendfile ')) {
-      var fileName = message.body.substring(9);
-
-      // ensure that file exists before sending
-      fs.stat(path.join(directory, fileName), function statCallback(err, stat) {
-        if (err == null) {
-          if(stat.isDirectory()){
-            api.sendMessage('The specified path points to a directory.', message.threadID);
-            return;
-          }
-          api.sendMessage({
-            body: '@fbash',
-            attachment: fs.createReadStream(path.join(directory, fileName))
-          }, message.threadID);
-        } else if (err.code === 'ENOENT') {
-          api.sendMessage('@fbash ERR:\nNo such file or directory: ' + fileName,
-            message.threadID);
-        } else {
-          console.log('Some other error: ', err.code);
-        }
-      });
+      var filePath = path.join(directory, message.body.substring(9));
+      sendfile(api, filePath, message.threadID);
       return;
     }
 
     if (message.body.startsWith('showcode ')) {
       var args = message.body.substring(9).split(' ');
-      if(args.length == 0){
-        api.sendMessage('@fbash\nNo file specified.', message.threadID);
-        return
-      }
-      var fileName = args[0];
-
-      // ensure that file exists before sending
-      fs.stat(path.join(directory, fileName), function statCallback(err, stat) {
-        if (err == null) {
-          if(stat.isDirectory()){
-            api.sendMessage('The specified path points to a directory.'
-                , message.threadID);
-            return;
-          }
-
-          var fileData = replacePeriods(fs.readFileSync(
-            path.join(directory, fileName), 'utf8'));
-
-          var fileType = args[1] ? args[1] : getFileType(fileName);
-          console.log('sent file '+fileName+' with file type '+fileType);
-
-          api.sendMessage('@fbash\n```'+fileType
-            +'\n'+fileData+'```', message.threadID);
-
-        } else if (err.code === 'ENOENT') {
-          api.sendMessage('@fbash ERR:\nNo such file or directory: ' + fileName,
-            message.threadID);
-        } else {
-          console.log('Some other error: ', err.code);
-        }
-      });
+      showcode(api, args, directory, 
+        message.threadID, settings.periodReplacement);
       return;
     }
 
-    if (message.body.startsWith('cd')) {
-      var success = false;
-      var relativeDir = message.body.substring(2).trim();
-      try {
-        var stat = fs.statSync(path.join(directory, relativeDir));
-        if (stat.isDirectory()) {
-          directory = path.join(directory, relativeDir);
-          success = true;
-        }
-      } catch (e) {}
-      if (success) {
-        api.sendMessage('@fbash\n' + directory, message.threadID);
-        console.log('cwd: ' + directory);
-      } else {
-        api.sendMessage('@fbash\nThe system could not find the path specified.',
-         message.threadID);
-      }
+    if (message.body.startsWith('cd ')) {
+      var relativeDir = message.body.substring(3);
+      directory = cd(api, directory, relativeDir, message.threadID);
       return;
     }
 
@@ -190,7 +135,7 @@ login(loginInfo, {
 
       // replaces periods in response with another character
       // to bypass Facebook's spam detection
-      stdout = replacePeriods(stdout);
+      stdout = replacePeriods(stdout, settings.periodReplacement);
       if (error)
         api.sendMessage('@fbash ERR:\n' + error, message.threadID);
       else {
@@ -212,13 +157,9 @@ login(loginInfo, {
       }
     });
   });
-
-  function replacePeriods(text){
-    return text.replace(/\./g, settings.periodReplacement);
-  }
 });
 
 function saveSettings() {
-  fs.writeFileSync(path.join(homedir, '.fbash', 'settings.json'),
+  fs.writeFileSync(path.join(directory, '.fbash', 'settings.json'),
     JSON.stringify(settings));
 }

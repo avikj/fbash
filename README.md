@@ -69,7 +69,7 @@ Periods in stdout responses are replaced with this character. This is used to by
       
 Default: `.`
 
-## Fixes as of latest version
+## Changes as of latest version
 * Allows replacing periods to bypass Facebook's spam detection.
 * No longer requires `sudo` to run.
 

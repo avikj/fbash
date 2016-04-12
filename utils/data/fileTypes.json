@@ -1,5 +1,10 @@
 {
 	"js": "javascript",
 	"py": "python",
-	"rb": "ruby"
+	"rb": "ruby",
+	"cpp": "c++",
+	"C": "c++",
+	"c": "c",
+	"java": "java",
+	"hs": "haskell"
 }

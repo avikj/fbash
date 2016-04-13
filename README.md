@@ -53,15 +53,6 @@ It will display this output in the chat from which the command was received.
 
 Details for each command can be found on the [docs](DOCS.md).
 
-#### Settings
-Each setting is a string that modifies how fbash acts in how it responds to commands.
-
-* `periodReplacement`
-
-Periods in stdout responses are replaced with this character. This is used to bypass Facebook's spam detection.
-      
-Default: `.`
-
 ## Changes as of latest version
 * Allows replacing periods to bypass Facebook's spam detection.
 * No longer requires `sudo` to run.

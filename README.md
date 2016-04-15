@@ -48,26 +48,10 @@ It will display this output in the chat from which the command was received.
 #### Additional commands
 
 * `sendfile <filename>`
-
-retrieves &lt;filename&gt; and sends as an attachment.
-      
 * `/set <setting> <value>`
-
-sets the value of the setting &lt;setting&gt; to &lt;value&gt;
-
 * `showcode <filename> [filetype]`
 
-displays &lt;filename&gt; with syntax highlighting specified by filetype. If filetype is not provided, fbash will attempt to choose the correct file type.
-**Displaying files with syntax highlighting only works when viewed on [messenger.com](messenger.com).**
-
-#### Settings
-Each setting is a string that modifies how fbash acts in how it responds to commands.
-
-* `periodReplacement`
-
-Periods in stdout responses are replaced with this character. This is used to bypass Facebook's spam detection.
-      
-Default: `.`
+Details for each command can be found on the [docs](DOCS.md).
 
 ## Changes as of latest version
 * Allows replacing periods to bypass Facebook's spam detection.

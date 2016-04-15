@@ -9,10 +9,4 @@ node_modules/
 *~
 *.swp
 
-secretData.json
-
 *bfg*
-
-appstate.json
-
-settings.json

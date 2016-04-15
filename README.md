@@ -79,4 +79,4 @@ Default: `.`
 * If you have an idea for a command which would be relevant and useful, please open an issue with the suggestion.
 * For the 'showcode' command, there is a hard-coded list of file extensions and corresponding languages. If you want a language
 to be added, please either open an issue with the language and file extension or create a pull request. The map of languages
-and file extensions can be found at /utils/getFileType.js.
+and file extensions can be found at src/utils/getFileType.js.

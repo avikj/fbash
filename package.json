@@ -2,15 +2,15 @@
   "name": "fbash",
   "version": "1.2.1",
   "description": "Terminal over Facebook Messenger, without continuously running browser instances.",
-  "main": "starter.js",
+  "main": "./src/starter.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node starter.js",
-    "stop": "node stopper.js"
+    "start": "node src/starter.js",
+    "stop": "node src/topper.js"
   },
   "bin": {
-    "fbash": "./starter.js",
-    "fbash-stop": "./stopper.js"
+    "fbash": "./src/starter.js",
+    "fbash-stop": "./src/stopper.js"
   },
   "keywords": [
     "Terminal",

@@ -2,7 +2,7 @@
 Terminal over Facebook Messenger, running continuously as a background process.
 
 
-[![NPM](https://nodei.co/npm/fbash.png?compact=true)](https://nodei.co/npm/fbash/)
+[![NPM](https://nodei.co/npm/fbash.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/fbash/)
 
 ![Photo](screenshot.PNG)
 

@@ -39,9 +39,9 @@ fbash does *not* allow using commands which require user interaction, such as `v
 
 fbash can also be accessed through normal chats (not just to yourself). 
 
-To use it in a chat that is not the chat with yourself, prefix the command with `/fbterm `. For example, to run `ls` in another chat, use
+To use it in a chat that is not the chat with yourself, prefix the command with `/fbash`. For example, to run `ls` in another chat, use
 ```
-/fbterm ls
+/fbash ls
 ```
 It will display this output in the chat from which the command was received.
 

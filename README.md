@@ -47,9 +47,10 @@ It will display this output in the chat from which the command was received.
 
 #### Additional commands
 
-* `sendfile <filename>`
+* `sendfile <file_path>`
+* `savefile <file_path>`
 * `/set <setting> <value>`
-* `showcode <filename> [filetype]`
+* `showcode <file_path> [language]`
 
 Details for each command can be found on the [docs](DOCS.md).
 

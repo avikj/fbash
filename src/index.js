@@ -10,15 +10,16 @@ var directory = require('homedir')();
 
 // require utility functions
 var replacePeriods = require('./utils/replacePeriods.js');
-
+var equalAttachments = require('./utils/equalAttachments.js');
 // require command functions
 var clear = require('./commands/clear.js');
 var sendfile = require('./commands/sendfile.js');
+var savefile = require('./commands/savefile.js');
 var showcode = require('./commands/showcode.js');
 var cd = require('./commands/cd.js');
 
-var lastMessage = '';
-
+var lastMessage = {};
+var lastFileAttachment = {};
 var settings = JSON.parse(
     fs.readFileSync(path.join(directory, '.fbash', 'settings.json'), 'utf8')
 );
@@ -56,18 +57,16 @@ login(loginInfo, {
     // prevent errors when message does not contain body
     if(err)
       return console.error(err);
-    if (!message.body) 
-      return;
 
     if (message.senderID != api.getCurrentUserID())
       return;
 
     // do not accept messages that were sent by the bot
-    if (message.body.startsWith('@fbash'))
+    if (message.body && message.body.startsWith('@fbash'))
       return;
 
     // do not accept messages from group chats unless preceded by '/fbash'
-    if (api.getCurrentUserID() != message.threadID) {
+    if (message.body && api.getCurrentUserID() != message.threadID) {
       if (message.body.startsWith('/fbash')) {
         message.body = message.body.substring(7);
       }
@@ -75,14 +74,23 @@ login(loginInfo, {
         return;
       }
     }
-
-    // for some reason the api recieves each message to oneself exactly twice,
-    // so filter duplicate messages
-    if (lastMessage === message.body) { 
-      lastMessage = '';
-      return;
+    else{
+      // for some reason the api recieves each message to oneself exactly twice,
+      // so filter duplicate messages
+      if (lastMessage.body === message.body && equalAttachments(lastMessage.attachments, message.attachments)) { 
+        lastMessage = {};
+        return;
+      }
+      lastMessage = message;
     }
-    lastMessage = message.body;
+
+    if(message.attachments && message.attachments.length > 0 && message.attachments[0].type == 'file'){
+      lastFileAttachment = message.attachments[0];
+      console.log(JSON.stringify(lastFileAttachment));
+    }
+
+    if (!message.body) 
+      return;
 
     message.body = message.body.trim();
 
@@ -113,6 +121,12 @@ login(loginInfo, {
     if (message.body.startsWith('sendfile ')) {
       var filePath = path.join(directory, message.body.substring(9));
       sendfile(api, filePath, message.threadID);
+      return;
+    }
+
+    if(message.body.startsWith('savefile ')) {
+      var filePath = path.join(directory, message.body.substring(9).trim());
+      savefile(api, filePath, lastFileAttachment, message.threadID);        // TEST THIS AFTER LUNCH
       return;
     }
 

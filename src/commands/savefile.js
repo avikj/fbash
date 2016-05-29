@@ -3,6 +3,10 @@ var https = require('https');
 var path = require('path');
 
 module.exports = function(api, filePath, lastFileAttachment, threadID){
+  if(!lastFileAttachment.url){
+    api.sendMessage('@fbash ERR:\nCould not find file to save.\nThe file to be saved must be sent before the savefile command is called.', threadID);
+    return;
+  }
   fs.stat(filePath, function(err, stats){
     if(!err){
       if(stats.isDirectory()){  // if the entered path is a directory, append the file name

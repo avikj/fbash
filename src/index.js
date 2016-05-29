@@ -118,27 +118,27 @@ login(loginInfo, {
     }
     
     // sends a file as an attachment
-    if (message.body.startsWith('sendfile ')) {
-      var filePath = path.join(directory, message.body.substring(9));
+    if (message.body.startsWith('sendfile')) {
+      var filePath = path.join(directory, message.body.substring(8).trim());
       sendfile(api, filePath, message.threadID);
       return;
     }
 
-    if(message.body.startsWith('savefile ')) {
-      var filePath = path.join(directory, message.body.substring(9).trim());
+    if(message.body.startsWith('savefile')) {
+      var filePath = path.join(directory, message.body.substring(8).trim());
       savefile(api, filePath, lastFileAttachment, message.threadID);        // TEST THIS AFTER LUNCH
       return;
     }
 
-    if (message.body.startsWith('showcode ')) {
-      var args = message.body.substring(9).split(' ');
+    if (message.body.startsWith('showcode')) {
+      var args = message.body.substring(8).trim().split(' ');
       showcode(api, args, directory, 
         message.threadID, settings.periodReplacement);
       return;
     }
 
-    if (message.body.startsWith('cd ')) {
-      var relativeDir = message.body.substring(3);
+    if (message.body.startsWith('cd')) {
+      var relativeDir = message.body.substring(2).trim();
       directory = cd(api, directory, relativeDir, message.threadID);
       return;
     }

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+    <section id="section-header">
+      <div class="row">
+        <div class="col m4 offset-m1 s10 offset-s1 valign-wrapper">
+          <div class="valign">
+            <img src="img/logo.png" class="center-align responsive-img"/>
+            <h2 class="center-align">fbash</h2>
+            <p class="center-align flow-text">Access all your terminal commands and more through Facebook Messenger.</p>
+            <div class="center-align">
+              <pre id="header-code">$ npm install -g fbash <br>$ fbash                </pre>
+              <a id="star-button" class="github-button" href="https://github.com/avikj/fbash" data-icon="octicon-star" data-style="mega" data-count-href="/avikj/fbash/stargazers" data-count-api="/repos/avikj/fbash#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star avikj/fbash on GitHub">Star</a>
+              <a id="follow-button" class="github-button" href="https://github.com/avikj" data-style="mega" data-count-href="/avikj/followers" data-count-api="/users/avikj#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @avikj on GitHub">Follow @avikj</a>
+            </div>
+          </div>
+        </div>
+        <div class="hide-on-small-only col m4 offset-m2 valign-wrapper">
+          <img id="header-img" src="img/fbash-android.png" class="responsive-img valign" />
+        </div>
+      </div>
+    </section> 
+
+    <section id="section-usage">
+      <div class="row">
+        <div class="col m4 offset-m1 valign-wrapper">
+          <div class="valign">
+            <h3 class="white-text">Installation and Running</h3>
+            <ol>
+              <li class="white-text">
+                <p class="white-text">Install globally through npm.</p>
+                <pre class="white-text">$ npm install -g fbash</pre>
+              </li>
+              <li class="white-text">
+                <p class="white-text">Run and enter credentials.</p>
+                <pre class="white-text">$ fbash           <br>email: you@example.com<br>password: ********    </pre>
+              </li>
+              <li class="white-text">
+                <p class="white-text">Your'e ready to go! To kill fbash at any time, use the following command.</p>
+                <pre class="white-text">$ fbash-stop</pre>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class="col m4 offset-m1 valign-wrapper">
+          <div class="valign">
+            <h3 class="white-text">Usage</h3>
+            <p class="flow-text white-text">Once you have fbash running on a computer, you can send commands through Messenger.
+            To do so, open the chat with which you can send messages to yourself. Any message sent through this chat will be treated
+            as a command for fbash to run. Commands can also be sent through other chats, but must be prefixed with 
+            <code class="white-text">/fbash</code> to be recognized as commands.</p>
+            <p class="flow-text white-text">More detailed usage instructions can be found on the <a href="https://github.com/avikj/fbash#readme">README</a>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://pre.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
+
+<!-- <pre>$ npm install -g fbash <br>$ fbash                <br>  email: me@example.com<br>  password: ********   </pre> -->

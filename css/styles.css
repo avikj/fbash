@@ -1,0 +1,46 @@
+section {
+  height: 100vh;
+}
+
+#section-usage {
+  background-color: #222;
+}
+
+.col, .row{
+  height: 100%;
+}
+
+/**{border: solid black 1px;}*/
+
+.responsive-img {
+  width: 30%;
+  display: block;
+  margin: 0 auto;
+}
+
+h2, h3 {
+  font-weight: 200;
+  padding: 10px;
+}
+
+.flow-text {
+  font-size: 1.3em;
+}
+
+#header-code {
+  font-size: 1.2em;
+  background-color: #eee;
+  padding: 6px;
+}
+
+#star-button {
+  float: left;
+}
+
+#follow-button {
+  float: right;
+}
+
+#header-img {
+  width: 100%;
+}

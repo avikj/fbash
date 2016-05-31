@@ -1,12 +1,2 @@
-*.log
-npm-debug.log*
-
-*.pid
-*.seed
-
-node_modules/
-
-*~
-*.swp
-
-*bfg*
+*.map
+.sass-cache/

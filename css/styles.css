@@ -1,13 +1,29 @@
-section {
-  height: 100vh;
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+  section {
+    height: 100vh;
+  }
 }
 
 #section-usage {
   background-color: #222;
 }
 
+#section-header {
+  height: 100vh;
+}
+
 .navbar-fixed {
   height: 0px;
+}
+
+#footer-heading {
+  padding: 0px;
+}
+
+h5 {
+  font-weight: 200;
 }
 
 #nav-img {
@@ -35,6 +51,11 @@ nav {
 
 .feature-row {
   height: 50%;
+}
+
+#author-name {
+  color: white;
+  text-decoration: underline;
 }
 
 * {

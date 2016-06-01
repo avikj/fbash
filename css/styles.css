@@ -6,8 +6,39 @@ section {
   background-color: #222;
 }
 
+.navbar-fixed {
+  height: 0px;
+}
+
+#nav-img {
+  width: 100%;
+}
+
+.icon-container {
+  font-size: 1.5em;
+}
+
+.feature a{
+  color: #a5a5a5;
+}
+
+.feature a:hover{
+  color: #666;
+}
+
+nav {
+  background-color: rgba(255, 255, 255, 0.9);
+}
 .col, .row{
   height: 100%;
+}
+
+.feature-row {
+  height: 50%;
+}
+
+* {
+  font-weight: 300;
 }
 
 /**{border: solid black 1px;}*/
@@ -18,7 +49,7 @@ section {
   margin: 0 auto;
 }
 
-h2, h3 {
+h2, h3, .brand-logo{
   font-weight: 200;
   padding: 10px;
 }

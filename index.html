@@ -7,12 +7,23 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
-
+    <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"  media="screen,projection"/>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
 
   <body>
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper container">
+          <a href="#!" class="brand-logo black-text">fbash</a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="#section-usage" class="black-text">Usage</a></li>
+            <li><a href="#section-features" class="black-text">Features</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
     <section id="section-header">
       <div class="row">
         <div class="col m4 offset-m1 s10 offset-s1 valign-wrapper">
@@ -66,9 +77,56 @@
         </div>
       </div>
     </section>
+
+    <section id="section-features">
+      <h3 class="center-align">Features</h3>
+      <p class="flow-text center-align">Taking advantage of Messenger's various features to provide maximal functionality.</p>
+      <div class="container">
+        <div class="row">
+          <div class="feature col m4">
+            <a href="https://github.com/avikj/fbash#usage">
+              <div class="icon-container center-align"><i class="fa fa-terminal fa-5x center-align"></i></div>
+              <p class="flow-text center-align">Run any command how you would normally run it on your terminal.</p>
+            </a>
+          </div>
+          <div class="feature col m4">
+            <a href="https://github.com/avikj/fbash/blob/master/DOCS.md#savefile">
+              <div class="icon-container center-align"><i class="fa fa-save fa-5x center-align"></i></div>
+              <p class="flow-text center-align">Save files sent through Messenger to a remote computer.</p>
+            </a>
+          </div>
+          <div class="feature col m4">
+            <a href="https://github.com/avikj/fbash/blob/master/DOCS.md#sendfile">
+              <div class="icon-container center-align"><i class="fa fa-send fa-5x center-align"></i></div>
+              <p class="flow-text center-align">Send files from a remote computer's file system to Messenger.</p>
+            </a>
+          </div>
+          <div class="feature col m4">
+            <a href="https://github.com/avikj/fbash/blob/master/DOCS.md#showcode">
+              <div class="icon-container center-align"><i class="fa fa-font fa-5x center-align"></i></div>
+              <p class="flow-text center-align">Display a code file on Messenger with syntax highlighting.</p>
+            </a>
+          </div>
+          <div class="feature col m4">
+            <a href="https://github.com/avikj/fbash#usage">
+              <div class="icon-container center-align"><i class="fa fa-group fa-5x center-align"></i></div>
+              <p class="flow-text center-align">Display terminal output on group chats to streamline collaboration.</p>
+            </a>
+          </div>
+          <div class="feature col m4">
+            <a href="https://github.com/avikj/fbash/issues">
+              <div class="icon-container center-align"><i class="fa fa-question fa-5x center-align"></i></div>
+              <p class="flow-text center-align">Get quick responses for questions, suggestions, and bug reports.</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
     <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="https://pre.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>  
+    <script type="text/javascript" src="js/bin/materialize.min.js"></script>
+    <script type="text/javascript" src="js/bin/init.js"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>

@@ -1,6 +1,8 @@
 *.log
 npm-debug.log*
 
+.sass-cache
+*.webarchive
 *.pid
 *.seed
 
@@ -10,3 +12,5 @@ node_modules/
 *.swp
 
 *bfg*
+
+*.map

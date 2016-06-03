@@ -17,9 +17,13 @@ var sendfile = require('./commands/sendfile.js');
 var savefile = require('./commands/savefile.js');
 var showcode = require('./commands/showcode.js');
 var cd = require('./commands/cd.js');
+var authorize = require('./commands/authorize.js');
 
 var lastMessage = {};
 var lastFileAttachment = {};
+
+var authorizedThreads = {};
+
 var settings = JSON.parse(
     fs.readFileSync(path.join(directory, '.fbash', 'settings.json'), 'utf8')
 );
@@ -58,7 +62,7 @@ login(loginInfo, {
     if(err)
       return console.error(err);
 
-    if (message.senderID != api.getCurrentUserID())
+    if (message.senderID != api.getCurrentUserID() && !authorizedThreads[message.threadID]) // either the sender is the current user or someone in an authorized thread
       return;
 
     // do not accept messages that were sent by the bot
@@ -126,7 +130,7 @@ login(loginInfo, {
 
     if(message.body.startsWith('savefile')) {
       var filePath = path.join(directory, message.body.substring(8).trim());
-      savefile(api, filePath, lastFileAttachment, message.threadID);        // TEST THIS AFTER LUNCH
+      savefile(api, filePath, lastFileAttachment, message.threadID);
       return;
     }
 
@@ -140,6 +144,12 @@ login(loginInfo, {
     if (message.body.startsWith('cd')) {
       var relativeDir = message.body.substring(2).trim();
       directory = cd(api, directory, relativeDir, message.threadID);
+      return;
+    }
+
+    if(message.body.startsWith('authorize')) {
+      var args = message.body.trim().split(' ');
+      authorize(api, args, authorizedThreads, message.threadID);
       return;
     }
 

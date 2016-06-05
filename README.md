@@ -51,6 +51,7 @@ It will display this output in the chat from which the command was received.
 * `savefile <file_path>`
 * `/set <setting> <value>`
 * `showcode <file_path> [language]`
+* `authorize` and `unauthorize` **(beta)** 
 
 Details for each command can be found on the [docs](DOCS.md).
 

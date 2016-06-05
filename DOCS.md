@@ -27,3 +27,10 @@ If `language` is not specified, the file extension will be used to attempt to de
 | Setting | Description | Default|
 | ------ | ----------- | -----------------
 | periodReplacement   | Periods in the fbash response are replaced with this to bypass facebook's spam detection | `.` |
+
+## Authorization *(beta)*
+`authorize`
+- enables all users on a thread to send commands to fbash through that thread
+`unauthorize`
+- undoes `authorize`
+*Authorization commands may cause unexpected results if multiple users on a thread are running fbash*

@@ -31,6 +31,8 @@ If `language` is not specified, the file extension will be used to attempt to de
 ## Authorization *(beta)*
 `authorize`
 - enables all users on a thread to send commands to fbash through that thread
+
 `unauthorize`
 - undoes `authorize`
+
 *Authorization commands may cause unexpected results if multiple users on a thread are running fbash*

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// appstate should already be saved before index.js is run
+// appstate should already be saved before main.js is run
 // should be launched from starter.js in production
 
 // require installed node modules

@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// appstate should already be saved before index.js is run
+// should be launched from starter.js in production
+
 // require installed node modules
 var login = require('facebook-chat-api');
 var fs = require('fs');

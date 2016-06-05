@@ -2,6 +2,10 @@ var fs = require('fs');
 
 // ensure that file exists before sending
 module.exports = function(api, filePath, threadID){
+  if(!filePath){
+    api.sendMessage('@fbash ERR:\nNo file specified.', threadID);
+    return;
+  }
   fs.stat(filePath, function statCallback(err, stat) {
     if (err == null) {
       if(stat.isDirectory()){

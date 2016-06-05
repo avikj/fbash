@@ -6,7 +6,8 @@ var fs = require('fs');
 var exec = require('child_process').exec;
 var path = require('path');
 var moment = require('moment');
-var directory = require('homedir')();
+var homedir = require('homedir');
+var stringToArgv = require('string-argv');
 
 // require utility functions
 var replacePeriods = require('./utils/replacePeriods.js');
@@ -18,6 +19,9 @@ var savefile = require('./commands/savefile.js');
 var showcode = require('./commands/showcode.js');
 var cd = require('./commands/cd.js');
 var authorize = require('./commands/authorize.js');
+var unauthorize = require('./commands/unauthorize.js');
+
+var directory = homedir();
 
 var lastMessage = {};
 var lastFileAttachment = {};
@@ -98,58 +102,61 @@ login(loginInfo, {
 
     message.body = message.body.trim();
 
+    var argv = stringToArgv(message.body);
+
     // handle fbash settings
-    if (message.body.startsWith('/set ')) {
-      var args = message.body.substring(5).split(' ');
-      if (args.length != 2) {
+    if (argv[0] == "/set") {
+      if (argv.length != 3) {
         api.sendMessage('@fbash\nThe syntax of the command is incorrect.', 
             message.threadID);
-
         return;
       }
-      settings[args[0]] = args[1];
-      api.sendMessage('@fbash\nSet value of \'' + args[0] 
-        + '\' to \'' + args[1] + '\'', message.threadID);
+      settings[args[1]] = args[2];
+      api.sendMessage('@fbash\nSet value of \'' + args[1] 
+        + '\' to \'' + args[2] + '\'', message.threadID);
 
       saveSettings();
       return;
     }
 
     // clears thread
-    if (message.body === 'cls' || message.body === 'clear') {
+    if (argv[0] == 'cls' || argv[0] == 'clear' || argv[0] == 'reset') {
       clear(api, message.threadID);
       return;
     }
     
     // sends a file as an attachment
-    if (message.body.startsWith('sendfile')) {
-      var filePath = path.join(directory, message.body.substring(8).trim());
+    if (argv[0] == 'sendfile') {
+      var filePath = argv[1] ? path.join(directory, argv[1]) : null;
       sendfile(api, filePath, message.threadID);
       return;
     }
 
-    if(message.body.startsWith('savefile')) {
-      var filePath = path.join(directory, message.body.substring(8).trim());
+    if(argv[0] == 'savefile') {
+      var filePath = path.join(directory, argv[1] ? argv[1] : '.');
       savefile(api, filePath, lastFileAttachment, message.threadID);
       return;
     }
 
-    if (message.body.startsWith('showcode')) {
-      var args = message.body.substring(8).trim().split(' ');
-      showcode(api, args, directory, 
+    if (argv[0] == 'showcode') {
+      showcode(api, argv[1], argv[2], directory, 
         message.threadID, settings.periodReplacement);
       return;
     }
 
-    if (message.body.startsWith('cd')) {
-      var relativeDir = message.body.substring(2).trim();
+    if (argv[0] == 'cd') {
+      var relativeDir = argv[1];
       directory = cd(api, directory, relativeDir, message.threadID);
       return;
     }
 
-    if(message.body.startsWith('authorize')) {
-      var args = message.body.trim().split(' ');
-      authorize(api, args, authorizedThreads, message.threadID);
+    if(argv[0] == 'authorize') {
+      authorize(api, authorizedThreads, message.threadID);
+      return;
+    }
+
+    if(argv[0] == 'unauthorize') {
+      unauthorize(api, authorizedThreads, message.threadID);
       return;
     }
 
@@ -184,6 +191,6 @@ login(loginInfo, {
 });
 
 function saveSettings() {
-  fs.writeFileSync(path.join(directory, '.fbash', 'settings.json'),
+  fs.writeFileSync(path.join(homedir(), '.fbash', 'settings.json'),
     JSON.stringify(settings));
 }

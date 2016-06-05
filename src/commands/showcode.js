@@ -3,12 +3,12 @@ var fs = require('fs'),
     replacePeriods = require('../utils/replacePeriods.js'),
     getFileType = require('../utils/getFileType.js');
 
-module.exports = function(api, args, directory, threadID, periodReplacement){
-  if(args.length == 0){
+module.exports = function(api, relativeFilePath, language, directory, threadID, periodReplacement){
+  if(!relativeFilePath){
     api.sendMessage('@fbash\nNo file specified.', threadID);
     return
   }
-  var filePath = path.join(directory, args[0]);
+  var filePath = path.join(directory, relativeFilePath);
 
   // ensure that file exists before sending
   fs.stat(filePath, function statCallback(err, stat) {
@@ -22,7 +22,7 @@ module.exports = function(api, args, directory, threadID, periodReplacement){
       var fileData = replacePeriods(fs.readFileSync(filePath, 'utf8'),
       	periodReplacement);
 
-      var fileType = args[1] ? args[1] : getFileType(filePath);
+      var fileType = language ? language : getFileType(filePath);
 
       api.sendMessage('@fbash\n```'+fileType
         +'\n'+fileData+'```', threadID);

@@ -1,8 +1,4 @@
-module.exports = function(api, args, authorizedThreads, threadID){
-  if(args.length != 1) {
-    api.sendMessage('@fbash ERR:\nThe syntax of the command is incorrect.');
-    return;
-  }
+module.exports = function(api, authorizedThreads, threadID){
   if(threadID == api.getCurrentUserID()){
     api.sendMessage('@fbash ERR:\nAuthorization is already permanently enabled for this thread.', threadID);
     return;

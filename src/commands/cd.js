@@ -15,7 +15,7 @@ module.exports = function(api, directory, relativeDir, threadID){
       	+'directory.', threadID);
     }
   } catch (e) {
-  	api.sendMessage('@fbash\nThe system could not find the path specified.',
+  	api.sendMessage('@fbash ERR:\nThe system could not find the path specified.',
      threadID);
   }
   return directory;

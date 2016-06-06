@@ -5,12 +5,11 @@
   "main": "./src/starter.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/starter.js",
-    "stop": "node src/stopper.js"
+    "start": "fbash start",
+    "stop": "fbash stop"
   },
   "bin": {
-    "fbash": "./src/starter.js",
-    "fbash-stop": "./src/stopper.js"
+    "fbash": "./src/fbash.js"
   },
   "keywords": [
     "Terminal",
@@ -25,6 +24,7 @@
   "author": "Avik Jain <avik@avikjain.me> (http://avikjain.me)",
   "license": "MIT",
   "dependencies": {
+    "commander": "^2.9.0",
     "facebook-chat-api": "git+https://git@github.com/Schmavery/facebook-chat-api.git",
     "forever": "^0.15.1",
     "homedir": "^0.6.0",

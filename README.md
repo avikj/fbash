@@ -20,7 +20,7 @@ fbash can be started using the command `fbash`. When it is initially run, it wil
 
 These should be the same credentials used to log into Facebook. In subsequent runs, fbash will use a saved app state to log in.
 ```shell
-$ fbash
+$ fbash start
 email: hello@example.com
 password: ****************
 Started fbash.
@@ -28,7 +28,7 @@ Started fbash.
 
 In addition, all running fbash processes can be stopped with the following command.
 ```shell
-$ fbash-stop
+$ fbash stop
 ```
 
 ## Usage
